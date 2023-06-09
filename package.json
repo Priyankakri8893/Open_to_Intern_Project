@@ -1,0 +1,27 @@
+{
+  "name": "open-to-intern-project-4-june",
+  "version": "1.0.0",
+  "description": "open to intern project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Priyankakri8893/Open_to_Intern_Project.git"
+  },
+  "author": "priyanka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Priyankakri8893/Open_to_Intern_Project/issues"
+  },
+  "homepage": "https://github.com/Priyankakri8893/Open_to_Intern_Project#readme",
+  "dependencies": {
+    "dotenv": "^16.1.4",
+    "emailvalid": "^1.0.4",
+    "express": "^4.18.2",
+    "mongoose": "^7.2.2",
+    "nodemon": "^2.0.22",
+    "validator": "^13.9.0"
+  }
+}
