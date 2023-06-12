@@ -3,47 +3,22 @@ const collegeModel = require('../models/collegeModel')
 const internModel = require('../models/internModel')
 const validator = require('validator')
 
-
-// ### POST /functionup/interns
-// - Create a document for an intern. 
-// - Also save the collegeId along with the document. Your request body contains the following fields - { name, mobile, email, collegeName}
-// - Return HTTP status 201 on a succesful document creation. Also return the document. The response should be a JSON object like [this](#Intern) 
-
-// {
-//     status: true,
-//     data: {
-//           "isDeleted" : false,
-//           "name" : "Jane Does",
-//           "email" : "jane.doe@iith.in",
-//           "mobile" : "90000900000",
-//           "collegeId" : ObjectId("888771129c9ea621dc7f5e3b")
-//           }
-//   }
-
 const intership= async (req, res) => {
     try {
-        const { name, mobile, email, collegeId }= req.body
-
-        if (!name.trim() || !mobile.trim() || !email.trim() || !collegeId) {
-            return res.status(400).send({
-                status: false,
-                message: "please provide all detail"
-            })
-        }
+        let { name, mobile, email, collegeName }= req.body
 
         if (typeof name !== "string" || typeof mobile !== "string" || 
-        typeof email !== "string") {
+        typeof email !== "string" || typeof collegeName !== "string") {
             return res.status(400).send({
                 status: false,
                 message: "Please provide correct types for all fields"
             })
         }
         
-        const idValidate= mongoose.isValidObjectId(collegeId)
-        if (!idValidate) {
+        if (!name.trim() || !mobile.trim() || !email.trim() || !collegeName.trim()) {
             return res.status(400).send({
                 status: false,
-                message: "please provide valid collegeId"
+                message: "please provide all detail"
             })
         }
 
@@ -52,6 +27,14 @@ const intership= async (req, res) => {
             return res.status(400).send({
                 status: false,
                 message: "please provide valid email"
+            })
+        }
+
+        const mobilValidate= validator.isMobilePhone(mobile)
+        if (!mobilValidate) {
+            return res.status(400).send({
+                status: false,
+                message: "please provide valid mobile number"
             })
         }
 
@@ -71,13 +54,15 @@ const intership= async (req, res) => {
             })
         }
 
-        const collegeIdExit= await collegeModel.findOne({_id: collegeId})
-        if (!collegeIdExit) {
+        const collegeNameExit= await collegeModel.findOne({name: collegeName})
+        if (!collegeNameExit) {
             return res.status(404).send({
                 status: false,
-                message: `${collegeId} is not exit`
+                message: `${collegeName} is not exit`
             })
         }
+
+        req.body.collegeId = collegeNameExit._id
 
         const data= await internModel.create(req.body)
 
