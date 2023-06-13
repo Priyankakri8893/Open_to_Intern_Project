@@ -63,7 +63,7 @@ const internsList= async (req, res) => {
     try {
         const name= req.query.collegeName
         if (!name) {
-            return res.status(400).send({
+            return res.status(404).send({
                 status: false,
                 message: "please provide collegeName to get data"
             })
