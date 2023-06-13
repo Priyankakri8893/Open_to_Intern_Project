@@ -69,7 +69,7 @@ const internsList= async (req, res) => {
             })
         }
 
-        const college= await collegeModel.findOne({name: name})
+        const college= await collegeModel.findOne({name: name, isDeleted: false})
         if (!college) {
             return res.status(404).send({
                 status: false,
@@ -78,7 +78,7 @@ const internsList= async (req, res) => {
         }
 
         const internsList= await internModel
-        .find({collegeId: college._id}).select({
+        .find({collegeId: college._id, isDeleted: false}).select({
             name: 1,
             email: 1,
             mobile: 1
